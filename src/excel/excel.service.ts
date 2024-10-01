@@ -5,25 +5,31 @@ import * as ExcelJS from 'exceljs';
 export class ExcelService {
   private readonly logger = new Logger(ExcelService.name);
 
-  async updateExcelFile() {
+  async addDataToExcel(data: { name: string; age: number }) {
     const workbook = new ExcelJS.Workbook();
+    let worksheet;
 
+    // Попробуем прочитать файл, если он существует
     try {
-      // Чтение существующего файла Excel
-      await workbook.xlsx.readFile('yourfile.xlsx'); // Замените на название вашего файла
-
-      const worksheet = workbook.getWorksheet('Sheet1'); // Укажите название листа
-
-      // Внесение данных в определенные строки и колонки
-      worksheet.getCell('A1').value = 'Новый заголовок'; // Внести новый заголовок в ячейку A1
-      worksheet.getCell('B2').value = 'Иван'; // Внести имя в ячейку B2
-      worksheet.getCell('C2').value = 30; // Внести возраст в ячейку C2
-
-      // Сохранение изменений
-      await workbook.xlsx.writeFile('updatedfile.xlsx'); // Сохранение в новый файл или перезапись существующего
-      this.logger.log('Файл Excel обновлён');
+      await workbook.xlsx.readFile('Zhurnal.xlsx'); // Замените на название вашего файла
+      worksheet = workbook.getWorksheet('Sheet1');
     } catch (error) {
-      this.logger.error('Ошибка при обновлении файла:', error);
+      // Если файл не существует, создадим новый
+      worksheet = workbook.addWorksheet('Sheet1');
+      worksheet.columns = [
+        { header: 'Имя', key: 'name', width: 20 },
+        { header: 'Возраст', key: 'age', width: 10 },
+      ];
     }
+
+    // Добавление новой строки с данными
+    worksheet.addRow({
+      name: data.name,
+      age: data.age,
+    });
+
+    // Сохранение изменений в файл
+    await workbook.xlsx.writeFile('data.xlsx');
+    this.logger.log(`Данные добавлены: ${JSON.stringify(data)}`);
   }
 }

@@ -3,6 +3,7 @@
 /node_modules
 /build
 
+Zhurnal.xlsx
 # Logs
 logs
 *.log
