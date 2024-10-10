@@ -23,23 +23,22 @@ export class ExcelService {
     numberdocdop: string;
     VO: string;
     DOV: string;
+    prim: string;
   }) {
     const workbook = new ExcelJS.Workbook();
     let worksheet;
 
-    // Пробуем прочитать существующий файл Excel
     try {
       await workbook.xlsx.readFile('Zhurnal.xlsx');
       worksheet = workbook.getWorksheet('Общий список ');
-      // Если лист отсутствует, создаем новый
     } catch (error) {
       this.logger.error('Ошибка при чтении файла: ', error);
       throw new Error('Не удалось прочитать файл Excel.');
     }
 
-    // Поиск первой пустой строки, начиная с B108
+   
     let rowIndex = 108;
-    const maxRows = worksheet.rowCount; // Получаем количество строк в листе
+    const maxRows = worksheet.rowCount; 
 
     while (rowIndex <= maxRows) {
       const row = worksheet.getRow(rowIndex);
@@ -51,27 +50,28 @@ export class ExcelService {
       rowIndex++;
     }
 
-    // Записываем данные в соответствующие ячейки
+   
     const targetRow = worksheet.getRow(rowIndex);
-    targetRow.getCell(2).value = data.surname; // B
-    targetRow.getCell(3).value = data.name; // C
-    targetRow.getCell(4).value = data.othername; // D
-    targetRow.getCell(5).value = data.kafedra; // E
-    targetRow.getCell(6).value = data.VO; // F
-    targetRow.getCell(7).value = data.DOV; // G
-    targetRow.getCell(8).value = data.workplace; // H
-    targetRow.getCell(9).value = data.orgcategory; // I
-    targetRow.getCell(10).value = data.worktitlecategory; // J
-    targetRow.getCell(11).value = data.studystep; // K
-    targetRow.getCell(12).value = data.studyrang; // L
-    targetRow.getCell(13).value = data.kvalcategory; // M
-    targetRow.getCell(14).value = data.oldstatus; // N
-    targetRow.getCell(15).value = data.olddata; // O
-    targetRow.getCell(16).value = data.datanotification; // P
-    targetRow.getCell(17).value = data.numberdoc; // Q
-    targetRow.getCell(18).value = data.numberdocdop; // R
+    targetRow.getCell(2).value = data.surname; 
+    targetRow.getCell(3).value = data.name; 
+    targetRow.getCell(4).value = data.othername; 
+    targetRow.getCell(5).value = data.kafedra; 
+    targetRow.getCell(6).value = data.VO; 
+    targetRow.getCell(7).value = data.DOV; 
+    targetRow.getCell(10).value = data.workplace; 
+    targetRow.getCell(11).value = data.orgcategory; 
+    targetRow.getCell(12).value = data.worktitlecategory; 
+    targetRow.getCell(13).value = data.studystep; 
+    targetRow.getCell(14).value = data.studyrang; 
+    targetRow.getCell(15).value = data.kvalcategory; 
+    targetRow.getCell(16).value = data.oldstatus; 
+    targetRow.getCell(17).value = data.olddata; 
+    targetRow.getCell(18).value = data.datanotification; 
+    targetRow.getCell(19).value = data.numberdoc; 
+    targetRow.getCell(20).value = data.prim; 
+    targetRow.getCell(21).value = data.numberdocdop; 
 
-    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']); // Укажите названия листов
+    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']); 
 
     // Сохранение изменений в файл
     await workbook.xlsx.writeFile('Zhurnal.xlsx');

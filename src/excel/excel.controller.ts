@@ -24,6 +24,7 @@ export class ExcelController {
     numberdocdop: string;
     VO: string;
     DOV: string;
+    prim:string;
   }) {
     await this.excelService.addDataToExcel(data);
     return { message: 'Данные были добавлены в файл Excel.' };

@@ -7,23 +7,19 @@ export class TotalController {
     @Get()
     async getTotal(@Res() res: Response) {
         try {
-            // Загрузка книги
             const workbook = XLSX.readFile('Zhurnal.xlsx');
-            const totalWorksheet = workbook.Sheets['Общее количество ']; // Убедитесь, что имя листа точно
+            const totalWorksheet = workbook.Sheets['Общее количество ']; 
 
             const results: number[] = [];
 
-            // Извлечение значений из ячеек C4:C25
             for (let i = 4; i <= 25; i++) {
                 const cellAddress = `C${i}`;
-                const cellValue = totalWorksheet[cellAddress]?.v; // Получаем значение ячейки
+                const cellValue = totalWorksheet[cellAddress]?.v; 
                 if (cellValue !== undefined && cellValue !== null) {
                     results.push(cellValue);
                 }
             }
 
-            // Возвращаем результат
-            console.log(results)
             return res.status(200).json({ results });
 
         } catch (error) {
