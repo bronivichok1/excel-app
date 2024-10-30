@@ -95,4 +95,91 @@ export class ExcelService {
       }
     }
   }
+
+  async redDataToExcel(data: {
+    number: number; // номер строки, начиная с 0
+    surname: string;
+    name: string;
+    othername: string;
+    kafedra: string;
+    workplace: string;
+    orgcategory: string;
+    worktitlecategory: string;
+    studyrang: string;
+    studystep: string;
+    kvalcategory: string;
+    oldstatus: string;
+    olddata: string;
+    datanotification: string;
+    numberdoc: string;
+    numberdocdop: string;
+    VO: string;
+    DOV: string;
+    prim: string;
+}) {
+    const workbook = new ExcelJS.Workbook();
+    let worksheet;
+
+    try {
+        await workbook.xlsx.readFile('Zhurnal.xlsx');
+        worksheet = workbook.getWorksheet('Общий список ');
+    } catch (error) {
+        this.logger.error('Ошибка при чтении файла: ', error);
+        throw new Error('Не удалось прочитать файл Excel.');
+    }
+
+    // Номер строки, начиная с 108
+    const rowIndex = data.number + 107;
+    const row = worksheet.getRow(rowIndex);
+    
+    // Проверка на совпадение значений
+    const isSame = 
+        row.getCell(2).value === data.surname &&
+        row.getCell(3).value === data.name &&
+        row.getCell(4).value === data.othername &&
+        row.getCell(5).value === data.kafedra &&
+        row.getCell(10).value === data.workplace &&
+        row.getCell(11).value === data.orgcategory &&
+        row.getCell(12).value === data.worktitlecategory &&
+        row.getCell(13).value === data.studystep &&
+        row.getCell(14).value === data.studyrang &&
+        row.getCell(15).value === data.kvalcategory &&
+        row.getCell(16).value === data.oldstatus &&
+        row.getCell(17).value === data.olddata &&
+        row.getCell(18).value === data.datanotification &&
+        row.getCell(19).value === data.numberdoc &&
+        row.getCell(20).value === data.prim &&
+        row.getCell(21).value === data.numberdocdop;
+
+    if (isSame) {
+        this.logger.log(`Данные уже существуют в строке ${rowIndex}, обновление не требуется.`);
+        return; // Прерываем выполнение функции, если данные совпадают
+    }
+
+    // Обновляем ячейки
+    row.getCell(2).value = data.surname; 
+    row.getCell(3).value = data.name; 
+    row.getCell(4).value = data.othername; 
+    row.getCell(5).value = data.kafedra; 
+    row.getCell(6).value = data.VO; 
+    row.getCell(7).value = data.DOV; 
+    row.getCell(10).value = data.workplace; 
+    row.getCell(11).value = data.orgcategory; 
+    row.getCell(12).value = data.worktitlecategory; 
+    row.getCell(13).value = data.studystep; 
+    row.getCell(14).value = data.studyrang; 
+    row.getCell(15).value = data.kvalcategory; 
+    row.getCell(16).value = data.oldstatus; 
+    row.getCell(17).value = data.olddata; 
+    row.getCell(18).value = data.datanotification; 
+    row.getCell(19).value = data.numberdoc; 
+    row.getCell(20).value = data.prim; 
+    row.getCell(21).value = data.numberdocdop; 
+
+    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']); 
+
+    // Сохранение изменений в файл
+    await workbook.xlsx.writeFile('Zhurnal.xlsx');
+    this.logger.log(`Данные добавлены в строку ${rowIndex}: ${JSON.stringify(data)}`);
+  }
 }

@@ -29,4 +29,29 @@ export class ExcelController {
     await this.excelService.addDataToExcel(data);
     return { message: 'Данные были добавлены в файл Excel.' };
   }
+  @Post('red')
+  async redData(@Body() data: {
+    number:number;
+    surname: string;
+    name: string;
+    othername: string;
+    kafedra: string;
+    workplace: string;
+    orgcategory: string;
+    worktitlecategory: string;
+    studyrang: string;
+    studystep: string;
+    kvalcategory: string;
+    oldstatus: string;
+    olddata: string;
+    datanotification: string;
+    numberdoc: string;
+    numberdocdop: string;
+    VO: string;
+    DOV: string;
+    prim:string;
+  }) {
+    await this.excelService.redDataToExcel(data);
+    return { message: 'Данные были добавлены в файл Excel.' };
+  }
 }
