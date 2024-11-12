@@ -18,6 +18,7 @@ export class TotalController {
             // Загружаем рабочую книгу из Excel файла
             const workbook = XLSX.readFile('Zhurnal.xlsx');
             const totalWorksheet = workbook.Sheets['Общий список ']; 
+            const accountWorksheet = workbook.Sheets['Учет актов'];
 
             const results: any[] = []; 
 
@@ -35,11 +36,27 @@ export class TotalController {
                 }
             }
 
-            // Проверяем, есть ли какие-либо результаты
+            // Проверяем, есть ли какие-либо результаты из первого листа
             if (results.length === 0) {
                 return res.status(404).json({ error: 'Нет данных для данной записи.' });
             }
 
+            // Получаем значения столбцов O и P с листа "Учет актов" на строке number + 5
+            const accountRowNumber = number + 5;
+            const valuesFromAccountSheet = [];
+
+            for (let colIndex = 14; colIndex <= 15; colIndex++) { // Столбцы O (14) и P (15)
+                const cellAddress = XLSX.utils.encode_cell({ r: accountRowNumber - 1, c: colIndex });
+                const cellValue = accountWorksheet[cellAddress] ? accountWorksheet[cellAddress].v : null;
+
+                // Если ячейка не пустая, добавляем значение в массив
+                if (cellValue !== null) {
+                    valuesFromAccountSheet.push(cellValue);
+                }
+            }
+            results.push(...valuesFromAccountSheet);
+
+            
             return res.json(results);
 
         } catch (error) {

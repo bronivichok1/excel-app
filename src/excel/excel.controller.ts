@@ -1,5 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ExcelService } from './excel.service';
+import { CreateDataDto } from './create-data.dto';
 
 @Controller('excel')
 export class ExcelController {
@@ -54,4 +55,9 @@ export class ExcelController {
     await this.excelService.redDataToExcel(data);
     return { message: 'Данные были добавлены в файл Excel.' };
   }
+  @Post('clock')
+    async clock(@Body() data: CreateDataDto) {
+        await this.excelService.clockToExcel(data);
+        return { message: 'Данные были добавлены в файл Excel.' };
+    }
 }
