@@ -6,6 +6,7 @@ import { ExcelService } from './excel/excel.service';
 import { ExcelController } from './excel/excel.controller';
 import { ExcelModule } from './excel/excel.module';
 import { TotalController } from './excel/total.controller';
+import { TotalController2 } from './excel/total2.controller';
 import { AllDataController } from './excel/alldata.controller';
 import { Edit } from './excel/edit.controller';
 import { DownloadController } from './excel/download.controller';
@@ -23,7 +24,8 @@ import { AuthModule } from './excel/auth.module';
   controllers: [
     AppController, 
     ExcelController, 
-    TotalController, 
+    TotalController,
+    TotalController2, 
     AllDataController, 
     Edit, 
     DownloadController

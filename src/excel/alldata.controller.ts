@@ -7,7 +7,6 @@ export class AllDataController {
     @Get()
     async getAllData(@Res() res: Response) {
         try {
-            // Загружаем рабочую книгу из Excel файла
             const workbook = XLSX.readFile('Zhurnal.xlsx');
             const worksheet = workbook.Sheets['Общий список ']; 
 

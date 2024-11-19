@@ -9,7 +9,6 @@ export class AuthController {
   async authenticate(@Body() body: { login: string; password: string }): Promise<{ status: string; message?: string }> {
     const { login, password } = body;
 
-    // Сравнение с переменными окружения
     if (login == this.configService.get<string>('LOGIN1') && password == this.configService.get<string>('PASSWORD1')) {
       return { status: 'red' };
     } else if (login == this.configService.get<string>('LOGIN2') && password == this.configService.get<string>('PASSWORD2')) {

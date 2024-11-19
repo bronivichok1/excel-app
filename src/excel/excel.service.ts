@@ -82,11 +82,9 @@ export class ExcelService {
     for (const sheetName of sheetNames) {
       const worksheet = workbook.getWorksheet(sheetName);
       if (worksheet) {
-        // Обходим все ячейки, чтобы инициировать пересчет формул
         worksheet.eachRow((row) => {
           row.eachCell((cell) => {
             if (cell.formula) {
-              // Перезаписываем текущие значения, чтобы вызвать пересчет
               const originalValue = cell.value;
               cell.value = null; 
               cell.value = originalValue; 
@@ -132,7 +130,6 @@ export class ExcelService {
     const rowIndex = data.number + 107;
     const row = worksheet.getRow(rowIndex);
     
-    // Проверка на совпадение значений
     const isSame = 
         row.getCell(2).value === data.surname &&
         row.getCell(3).value === data.name &&
@@ -182,23 +179,20 @@ export class ExcelService {
   }
 
   async clockToExcel(data: CreateDataDto) {
-    const { number, additionalFields } = data; // Извлекаем number и массив дополнительных полей
+    const { number, additionalFields } = data; 
     console.log('Полученные данные:', data);
 
     const workbook = new ExcelJS.Workbook();
     let worksheet;
 
     try {
-        // Загружаем существующий файл
         await workbook.xlsx.readFile('Zhurnal.xlsx');
-        // Получаем лист "Учет актов"
         worksheet = workbook.getWorksheet('Учет актов');
     } catch (error) {
-        console.error('Ошибка при чтении файла: ', error); // Логируем ошибку
+        console.error('Ошибка при чтении файла: ', error); 
         throw new Error('Не удалось прочитать файл Excel.');
     }
 
-    // Проверяем, что number корректен
     const startRowIndex = number + 5 ; 
     const fields = additionalFields;
     
@@ -343,12 +337,10 @@ updateCell(`DL${startRowIndex}`, fields[24].hoursDOV, true);
   
 
   await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']);
-    // Сохраняем изменения в файл
     try {
-        await workbook.xlsx.writeFile('Zhurnal.xlsx'); // Записываем изменения в файл
-        console.log(`Данные успешно добавлены в строку ${startRowIndex}`); // Логируем успех
+        await workbook.xlsx.writeFile('Zhurnal.xlsx'); 
     } catch (error) {
-        console.error('Ошибка при записи файла: ', error); // Логируем ошибку записи
+        console.error('Ошибка при записи файла: ', error); 
         throw new Error('Не удалось записать файл Excel.');
     }
 }
