@@ -180,8 +180,6 @@ export class ExcelService {
 
   async clockToExcel(data: CreateDataDto) {
     const { number, additionalFields } = data; 
-    console.log('Полученные данные:', data);
-
     const workbook = new ExcelJS.Workbook();
     let worksheet;
 

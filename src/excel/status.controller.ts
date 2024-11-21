@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-@Controller('auth') // Путь к ресурсу
+@Controller('auth') 
 export class AuthController {
   constructor(private configService: ConfigService) {}
 

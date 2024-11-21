@@ -11,6 +11,7 @@ import { AllDataController } from './excel/alldata.controller';
 import { Edit } from './excel/edit.controller';
 import { DownloadController } from './excel/download.controller';
 import { AuthModule } from './excel/auth.module'; 
+import {EditClockController} from './excel/editclock.controller';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { AuthModule } from './excel/auth.module';
     TotalController2, 
     AllDataController, 
     Edit, 
-    DownloadController
+    DownloadController,
+    EditClockController
   ],
   providers: [AppService, ExcelService],
 })
