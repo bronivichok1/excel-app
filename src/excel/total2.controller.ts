@@ -15,7 +15,7 @@ export class TotalController2 {
             for (let i = 4; i <= 25; i++) {
                 const cellAddress = `C${i}`;
                 const cellValue = totalWorksheet[cellAddress]?.v; 
-                if (cellValue !== undefined && cellValue !== null) {
+                if (cellValue !== undefined) {
                     results.push(cellValue);
                 }
             }
