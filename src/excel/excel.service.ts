@@ -1,8 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as ExcelJS from 'exceljs';
 import { CreateDataDto } from './create-data.dto'; 
-import * as XLSX from 'xlsx';
-
+ 
 @Injectable()
 export class ExcelService {
   private readonly logger = new Logger(ExcelService.name);
@@ -73,7 +72,7 @@ export class ExcelService {
     targetRow.getCell(20).value = data.prim; 
     targetRow.getCell(21).value = data.numberdocdop; 
 
-    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']); 
+    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ','Общий список ']); 
 
     await workbook.xlsx.writeFile('Zhurnal.xlsx');
     this.logger.log(`Данные добавлены в строку ${rowIndex}: ${JSON.stringify(data)}`);
@@ -172,7 +171,7 @@ export class ExcelService {
     row.getCell(20).value = data.prim; 
     row.getCell(21).value = data.numberdocdop; 
 
-    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']); 
+    await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ','Общий список ']); 
 
     await workbook.xlsx.writeFile('Zhurnal.xlsx');
     this.logger.log(`Данные добавлены в строку ${rowIndex}: ${JSON.stringify(data)}`);
@@ -334,7 +333,7 @@ updateCell(`DL${startRowIndex}`, fields[24].hoursDOV, true);
 
   
 
-  await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ']);
+  await this.updateFormulas(workbook, ['Учет актов', 'Списки по кафедрам', 'Общее количество ','Общий список ']);
     try {
         await workbook.xlsx.writeFile('Zhurnal.xlsx'); 
     } catch (error) {

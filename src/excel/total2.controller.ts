@@ -28,5 +28,7 @@ export class TotalController2 {
             console.error(error);
             return res.status(500).json({ error: 'Произошла ошибка при обработке файла.' });
         }
+        
     }
+    
 }
